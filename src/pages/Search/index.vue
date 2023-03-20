@@ -119,11 +119,12 @@
 <script>
 import SearchSelector from "./SearchSelector/SearchSelector";
 import { mapGetters } from "vuex";
-import Pagination from "../../../../Shangpinghui/静态页+静态组件/静态组件/Pagination.vue";
+import Pagination from "../../components/Pagination/Pagination.vue";
 export default {
   name: "Search",
   components: {
     SearchSelector,
+    Pagination,
   },
   data() {
     return {
