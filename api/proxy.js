@@ -9,9 +9,11 @@ module.exports = (req, res) => {
     // target 替换为你跨域请求的服务器 如： http://baidu.com
     if (req.url.startsWith('/api')) {
         target = 'http://gmall-h5-api.atguigu.cn'
-        console.log('请求转发===');
     }
+    /* /api/proxy?path=xx */
+    /* path -> req -> /api/path */
     // 创建代理对象并转发请求
+    console.log('vercel中的请求对象', req);
     createProxyMiddleware({
         target,
         changeOrigin: true,
