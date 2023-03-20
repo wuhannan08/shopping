@@ -7,19 +7,14 @@ module.exports = (req, res) => {
     // 代理目标地址
     // 这里使用 backend 主要用于区分 vercel serverless 的 api 路径
     // target 替换为你跨域请求的服务器 如： http://baidu.com
-    if (req.url.startsWith('/proxy')) {
-        target = 'http://gmall-h5-api.atguigu.cn'
+    if (req.url.startsWith('/api')) {
+        target = 'http://127.0.0.1:5000'
+        /* target = 'http://gmall-h5-api.atguigu.cn' */
         req.url = req.headers.realPath;
     }
     /* /api/proxy?path=xx */
     /* path -> req -> /api/path */
     // 创建代理对象并转发请求
-    console.log('vercel中的请求对象', req);
-    console.log('headers===', req.headers);
-    console.log('headers.path : ', req.headers.realPath);
-    req.url = req.headers.realPath;
-    console.log('======================');
-    console.log('修改后的请求对象：', req);
     createProxyMiddleware({
         target,
         changeOrigin: true,

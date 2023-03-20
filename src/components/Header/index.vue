@@ -72,6 +72,7 @@ export default {
     this.$bus.$on("clearKeyword", () => {
       this.keyword = "";
     });
+    this.$API.get();
   },
   methods: {
     goSearch() {
