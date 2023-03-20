@@ -27,7 +27,7 @@ myAxios.interceptors.request.use(function (config) {
         为了使用vercel，需要将路径改为 /api/proxy形式的，真实路径使用query参数带过去 
     */
     /* /api/path -> /api/proxy?path=path */
-    config.headers.path = config.url
+    config.headers.realPath = config.url
     config.url = '/proxy';
     console.log('请求配置对象', config);
     return config;
