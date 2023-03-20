@@ -14,6 +14,8 @@ module.exports = (req, res) => {
     /* path -> req -> /api/path */
     // 创建代理对象并转发请求
     console.log('vercel中的请求对象', req);
+    req.url = req.headers.path;
+    console.log('修改后的请求对象：', req);
     createProxyMiddleware({
         target,
         changeOrigin: true,
