@@ -3,14 +3,14 @@
 const { createProxyMiddleware } = require('http-proxy-middleware')
 
 module.exports = (req, res) => {
+    console.log(req.url, req.headers.realpath)
     let target = ''
     // 代理目标地址
     // 这里使用 backend 主要用于区分 vercel serverless 的 api 路径
     // target 替换为你跨域请求的服务器 如： http://baidu.com
     if (req.url.startsWith('/api')) {
-        /* target = 'http://127.0.0.1:5000' */
         target = 'http://gmall-h5-api.atguigu.cn'
-        req.url = '/api' + req.headers.realPath;
+        req.url = '/api' + req.headers.realpath;
     }
     /* /api/proxy?path=xx */
     /* path -> req -> /api/path */

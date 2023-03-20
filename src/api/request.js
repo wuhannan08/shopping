@@ -4,10 +4,6 @@
 import myAxios from "./axios";
 import mockAxios from "./mockAxios";
 
-// 测试使用
-export function get() {
-    return myAxios.get('/proxy');
-}
 
 export function getBaseCategoryList() {
     return myAxios.get("/product/getBaseCategoryList");
