@@ -75,7 +75,7 @@
                     <router-link :to="`/detail/${good.id}`">
                       <!-- <img :src="good.defaultImg" /> -->
                       <!-- <img v-lazy="good.defaultImg" /> -->
-                      <img v-lazy="good.defaultImg" />
+                      <img v-lazy="getImgUrl(good.defaultImg)" />
                     </router-link>
                   </div>
                   <div class="price">
@@ -187,6 +187,13 @@ export default {
     },
   },
   methods: {
+    getImgUrl(imgUrl) {
+      if (!imgUrl) return imgUrl;
+      let tokens = imgUrl.split(":");
+      let result = tokens[0] + "s:" + tokens[1];
+      console.log("url:", result);
+      return result;
+    },
     removeCategory() {
       // 点击关闭时将分类名置为undefined，这样请求的时候就不会带上这个参数，
       // 相当于空串，但是性能好（因为空串还是会出现在请求中）

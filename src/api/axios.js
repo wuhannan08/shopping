@@ -10,7 +10,7 @@ import 'nprogress/nprogress.css'
 
 import { getUUID } from "../util/uuid";   // 引入游客身份生成方法
 
-const useVercel = false;
+const useVercel = true;
 
 // 创建自定义 axios 实例
 const myAxios = axios.create({
