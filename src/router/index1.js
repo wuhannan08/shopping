@@ -1,18 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import store from '../store/vuex'
-import Home from '../pages/Home'
-import Search from '../pages/Search'
-import Detail from '../pages/Detail'
-import Login from '../pages/Login'
-import Register from '../pages/Register'
-import AddCartSuccess from '../pages/AddCartSuccess'
-import ShopCart from '../pages/ShopCart'
-import Trade from '../pages/Trade'
-import Pay from '../pages/Pay'
-import PaySuccess from '../pages/PaySuccess'
-import Center from '../pages/Center'
-import MyOrder from '../pages/Center/MyOrder'
 
 Vue.use(VueRouter);
 
@@ -42,8 +30,7 @@ let router = new VueRouter({
     routes: [
         {
             path: '/home',
-            //component: () => import('../pages/Home'),
-            component: Home,
+            component: (/* webpackChunkName: home */) => import('../pages/Home'),
             meta: {
                 showFooter: true
             }
@@ -51,32 +38,28 @@ let router = new VueRouter({
         {
             path: '/search/:keyword?',// 占位符后的?代表这个params参数可传可不传
             name: 'search',
-            //component: () => import('../pages/Search'),
-            component: Search,
+            component: (/* webpackChunkName: search */) => import('../pages/Search'),
             meta: {
                 showFooter: true
             }
         },
         {
             path: '/detail/:id',
-            //component: () => import('../pages/Detail'),
-            component: Detail,
+            component: (/* webpackChunkName: detail */) => import('../pages/Detail'),
             meta: {
                 showFooter: true
             }
         },
         {
             path: '/login',
-            //component: () => import('../pages/Login'),
-            component: Login,
+            component: (/* webpackChunkName: login */) => import('../pages/Login'),
             meta: {
                 showFooter: false
             }
         },
         {
             path: '/register',
-            //component: () => import('../pages/Register'),
-            component: Register,
+            component: (/* webpackChunkName: register */) => import('../pages/Register'),
             meta: {
                 showFooter: false
             }
@@ -89,8 +72,7 @@ let router = new VueRouter({
         {
             path: '/addcartsuccess',
             name: 'addCartSuccess',
-            //component: () => import('../pages/AddCartSuccess'),
-            component: AddCartSuccess,
+            component: (/* webpackChunkName: addCartSuccess */) => import('../pages/AddCartSuccess'),
             meta: {
                 showFooter: true,
             }
@@ -98,16 +80,14 @@ let router = new VueRouter({
         {
             path: '/shopcart',
             name: 'shopcart',
-            //component: () => import('../pages/ShopCart'),
-            component: ShopCart,
+            component: (/* webpackChunkName: shopcart */) => import('../pages/ShopCart'),
             meta: {
                 showFooter: true,
             }
         },
         {
             path: '/trade',
-            //component: () => import('../pages/Trade'),
-            component: Trade,
+            component: (/* webpackChunkName: trade */) => import('../pages/Trade'),
             meta: {
                 showFooter: true
             },
@@ -118,8 +98,7 @@ let router = new VueRouter({
         },
         {
             path: '/pay',
-            //component: () => import('../pages/Pay'),
-            component: Pay,
+            component: (/* webpackChunkName: pay */) => import('../pages/Pay'),
             meta: {
                 showFooter: true
             },
@@ -130,8 +109,7 @@ let router = new VueRouter({
         },
         {
             path: '/paysuccess',
-            //component: () => import('../pages/PaySuccess'),
-            component: PaySuccess,
+            component: (/* webpackChunkName: paySuccess */) => import('../pages/PaySuccess'),
             meta: {
                 showFooter: true
             },
@@ -143,8 +121,7 @@ let router = new VueRouter({
         },
         {
             path: '/center',
-            //component: () => import('../pages/Center'),
-            component: Center,
+            component: (/* webpackChunkName: center */) => import('../pages/Center'),
             redirect: '/center/myorder',    // 访问center时默认展示myorder
             meta: {
                 showFooter: true
@@ -152,8 +129,8 @@ let router = new VueRouter({
             children: [
                 {
                     path: 'myorder',
-                    //component: () => import('../pages/Center/MyOrder'),
-                    component: MyOrder,
+                    component: (/* webpackChunkName: order */) => import('../pages/Center/MyOrder'),
+
                 }
             ]
         },

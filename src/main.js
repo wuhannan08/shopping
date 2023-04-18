@@ -11,6 +11,8 @@ import { MessageBox } from 'element-ui'
 import './mock/mock.js'
 import 'swiper/css/swiper.css' // 引入swiper插件的css
 import './util/formValidate'
+import VueLazyload from 'vue-lazyload'  // 引入图片懒加载插件
+import loading from './assets/images/loading.gif'
 
 import * as API from './api/request'  // 引入所有网络请求的方法
 Vue.prototype.$API = API; // 绑定到$API上
@@ -19,6 +21,10 @@ Vue.component("Carousel", Carousel);
 Vue.component("Pagination", Pagination);
 Vue.prototype.$msgbox = MessageBox;
 Vue.prototype.$alert = MessageBox.alert;
+Vue.use(VueLazyload, {
+  loading: loading,
+  preLoad: 1.2
+});
 
 new Vue({
   render: h => h(App),

@@ -8,69 +8,88 @@
           >我有账号，去 <a href="login.html" target="_blank">登陆</a>
         </span>
       </h3>
-      <ValidationProvider
-        :rules="{ regex: /^1[0-9]{10}$/ }"
-        v-slot="{ errors }"
-        name="手机号"
-      >
-        <div class="content">
-          <label>手机号:</label>
-          <input type="text" placeholder="请输入你的手机号" v-model="phone" />
-          <span class="error-msg">{{ errors[0] }}</span>
-        </div>
-      </ValidationProvider>
-      <ValidationProvider
-        :rules="{ regex: /^[0-9]{6}$/ }"
-        v-slot="{ errors }"
-        name="验证码"
-      >
-        <div class="content">
-          <label>验证码:</label>
-          <input type="text" placeholder="请输入验证码" v-model="code" />
-          <button class="code-btn" @click="getCode">获取验证码</button>
-          <span class="error-msg">{{ errors[0] }}</span>
-        </div>
-      </ValidationProvider>
-      <ValidationProvider
-        :rules="{ regex: /^\w{8,16}$/ }"
-        v-slot="{ errors }"
-        name="密码"
-      >
-        <div class="content">
-          <label>登录密码:</label>
-          <input
-            type="password"
-            placeholder="请输入你的登录密码"
-            v-model="password"
-          />
-          <span class="error-msg">{{ errors[0] }}</span>
-        </div>
-      </ValidationProvider>
-      <ValidationProvider
-        :rules="{ is: password }"
-        v-slot="{ errors }"
-        name="repeatPassword"
-      >
-        <div class="content">
-          <label>确认密码:</label>
-          <input
-            type="password"
-            placeholder="请输入确认密码"
-            v-model="repeatPassword"
-          />
-          <span class="error-msg">{{ errors[0] }}</span>
-        </div>
-      </ValidationProvider>
-      <ValidationProvider rules="agree" v-slot="{ errors }" name="agree">
-        <div class="controls">
-          <input name="m1" type="checkbox" v-model="agree" />
-          <span>同意协议并注册《尚品汇用户协议》</span>
-          <span class="error-msg">{{ errors[0] }}</span>
-        </div>
-      </ValidationProvider>
-      <div class="btn">
-        <button @click="register">完成注册</button>
-      </div>
+      <ValidationObserver slim ref="form">
+        <form>
+          <ValidationProvider
+            slim
+            rules="required|phone"
+            v-slot="{ errors }"
+            name="手机号"
+          >
+            <div class="content">
+              <label>手机号:</label>
+              <input
+                type="text"
+                placeholder="请输入你的手机号"
+                v-model="phone"
+              />
+              <span class="error-msg">{{ errors[0] }}</span>
+            </div>
+          </ValidationProvider>
+          <ValidationProvider
+            slim
+            rules="required|code"
+            v-slot="{ errors }"
+            name="验证码"
+          >
+            <div class="content">
+              <label>验证码:</label>
+              <input type="text" placeholder="请输入验证码" v-model="code" />
+              <button class="code-btn" @click.prevent="getCode">
+                获取验证码
+              </button>
+              <span class="error-msg">{{ errors[0] }}</span>
+            </div>
+          </ValidationProvider>
+          <ValidationProvider
+            slim
+            rules="required|password"
+            v-slot="{ errors }"
+            name="密码"
+          >
+            <div class="content">
+              <label>登录密码:</label>
+              <input
+                type="password"
+                placeholder="请输入你的登录密码"
+                v-model="password"
+              />
+              <span class="error-msg">{{ errors[0] }}</span>
+            </div>
+          </ValidationProvider>
+          <ValidationProvider
+            slim
+            :rules="{ required: true, is: password }"
+            v-slot="{ errors }"
+            name="确认密码"
+          >
+            <div class="content">
+              <label>确认密码:</label>
+              <input
+                type="password"
+                placeholder="请输入确认密码"
+                v-model="repeatPassword"
+              />
+              <span class="error-msg">{{ errors[0] }}</span>
+            </div>
+          </ValidationProvider>
+          <ValidationProvider
+            slim
+            rules="required|agree"
+            v-slot="{ errors }"
+            name="agree"
+          >
+            <div class="controls">
+              <input name="m1" type="checkbox" v-model="agree" />
+              <span>同意协议并注册《尚品汇用户协议》</span>
+              <span class="error-msg">{{ errors[0] }}</span>
+            </div>
+          </ValidationProvider>
+          <div class="btn">
+            <button type="submit" @click="register">完成注册</button>
+          </div>
+        </form>
+      </ValidationObserver>
     </div>
 
     <!-- 底部 -->
@@ -92,7 +111,6 @@
 </template>
 
 <script>
-import { validate } from "vee-validate";
 export default {
   name: "Register",
   data() {
@@ -102,6 +120,9 @@ export default {
       password: "",
       repeatPassword: "",
       agree: true,
+      firstName: "",
+      lastName: "",
+      email: "",
     };
   },
   methods: {
@@ -112,20 +133,26 @@ export default {
         alert(error);
       }
     },
-    async register() {
-      let { phone, code, password, repeatPassword } = this;
-      try {
-        await this.$store.dispatch("register", {
-          phone,
-          code,
-          password,
-          repeatPassword,
-        });
-        // 注册之后要跳转登录页
-        this.$router.push({ path: "/login" });
-      } catch (error) {
-        alert(error);
-      }
+    register() {
+      this.$refs.form.validate().then(async (success) => {
+        if (!success) {
+          alert("表单不合法");
+          return;
+        }
+        let { phone, code, password, repeatPassword } = this;
+        try {
+          await this.$store.dispatch("register", {
+            phone,
+            code,
+            password,
+            repeatPassword,
+          });
+          // 注册之后要跳转登录页
+          this.$router.push({ path: "/login" });
+        } catch (error) {
+          alert(error);
+        }
+      });
     },
   },
 };
@@ -159,12 +186,12 @@ export default {
     }
 
     div:nth-of-type(1) {
-      margin-top: 27px;
+      margin-top: 40px;
     }
 
     .content {
       padding-left: 390px;
-      margin-bottom: 18px;
+      margin-bottom: 25px;
       position: relative;
 
       label {

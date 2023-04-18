@@ -10,6 +10,8 @@ import 'nprogress/nprogress.css'
 
 import { getUUID } from "../util/uuid";   // 引入游客身份生成方法
 
+const useVercel = false;
+
 // 创建自定义 axios 实例
 const myAxios = axios.create({
     baseURL: '/api',
@@ -23,13 +25,18 @@ myAxios.interceptors.request.use(function (config) {
     config.headers.userTempId = getUUID();  // 在所有请求的请求头中增加userTempId
     // 在所有请求头中带上token
     config.headers.token = localStorage.getItem('token');
+
+    config.headers['If-None-Match'] = '';
+    console.log(config.headers);
     /* 
         为了使用vercel，需要将路径改为 /api/proxy形式的，真实路径使用query参数带过去 
     */
     /* /api/path -> /api/proxy?path=path */
-    config.headers.realPath = config.url
-    config.url = '/proxy';
-    console.log('请求配置对象', config);
+    if (useVercel) {
+        config.headers.realPath = config.url
+        config.url = '/proxy';
+        console.log('请求配置对象', config);
+    }
     return config;
 })
 

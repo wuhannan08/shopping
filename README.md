@@ -102,5 +102,5 @@ import() 返回的是一个Promise；当访问路由时，才会调用箭头函�
 2. Swiper 轮播图插件，使用的是 Swiper 5版本
 3. uuid 用于生成游客的唯一id；
 4. qrcode 用于生成二维码；
-5. vue-lazyload 插件实现图片懒加载；
+5. vue-lazyload 插件实现图片懒加载；版本：1.3.3
 6. vee-validate 插件实现表单验证；

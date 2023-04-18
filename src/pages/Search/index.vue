@@ -73,7 +73,9 @@
                 <div class="list-wrap">
                   <div class="p-img">
                     <router-link :to="`/detail/${good.id}`">
-                      <img :src="good.defaultImg" />
+                      <!-- <img :src="good.defaultImg" /> -->
+                      <!-- <img v-lazy="good.defaultImg" /> -->
+                      <img v-lazy="good.defaultImg" />
                     </router-link>
                   </div>
                   <div class="price">
@@ -134,8 +136,8 @@ export default {
         category3Id: "",
         categoryName: "",
         keyword: "",
-        pageNo: 2,
-        pageSize: 5,
+        pageNo: 1,
+        pageSize: 60,
         // 筛选属性的数据
         props: [],
         trademark: "", // 品牌

@@ -38,7 +38,9 @@
                 </label>
                 <span class="forget">忘记密码？</span>
               </div>
-              <button class="btn" @click="login">登&nbsp;&nbsp;录</button>
+              <button class="btn" @click.prevent="login">
+                登&nbsp;&nbsp;录
+              </button>
             </form>
 
             <div class="call clearFix">
@@ -92,6 +94,7 @@ export default {
         });
         // 登录成功后，如果有redirect的query参数，则跳转对应的网页，没有则跳转Home页
         let toPath = this.$route.query.redirect || "/home";
+        console.log("======toPath", toPath);
         this.$router.push(toPath);
       } catch (error) {
         alert(error);

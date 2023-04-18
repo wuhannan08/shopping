@@ -122,10 +122,13 @@ const actions = {
     async login(context, user) {
         let result = await login(user);
         if (result.code == 200) {
+            console.log('登录验证成功');
             // 如果登录成功，则将返回的token保存到localStorage
             localStorage.setItem('token', result.data.token);
+            context.dispatch('getUserInfo');
             return result.message;
         } else {
+            console.log('登录验证失败');
             return Promise.reject(result.message);
         }
     },
@@ -189,7 +192,7 @@ const actions = {
         return await getPayStatus(orderId);
     },
 
-   
+
 };
 const mutations = {
     GET_CATEGORYLIST(state, value) {

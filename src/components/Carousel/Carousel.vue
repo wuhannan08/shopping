@@ -28,7 +28,7 @@ export default {
     carouselList: {
       immediate: true,
       handler() {
-        console.log("===", this.carouselList);
+        /* console.log("===", this.carouselList); */
         // 当carouselList数据更新之后，下一次模板渲染后再创建new Swiper，这个时候轮播图结构就是完整的
         this.$nextTick(() => {
           new Swiper(".swiper-container", {
